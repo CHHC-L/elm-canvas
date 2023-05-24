@@ -1,5 +1,5 @@
 module Canvas exposing
-    ( toHtml, toHtmlWith
+    ( toHtml, toHtmlWith, toHtmlWithViewporter
     , Renderable, Point
     , clear, shapes, text, texture, group, empty
     , Shape
@@ -56,7 +56,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (on)
 import Html.Keyed as Keyed
 import Json.Decode as D
-
+import CanvasViewporter exposing (..)
 
 
 -- HTML
@@ -145,7 +145,21 @@ cnvs : Html msg
 cnvs =
     canvas [] []
 
-
+toHtmlWithViewporter :
+    { width : Int
+    , height : Int
+    , textures : List (Texture.Source msg)
+    , canvasViewport : CanvasViewport
+    }
+    -> List (Attribute msg)
+    -> List Renderable
+    -> Html msg
+toHtmlWithViewporter options attrs entities =
+    Keyed.node "elm-canvas"
+        (commands (render (entities |> canvasViewporter options.canvasViewport)) :: height options.height :: width options.width :: attrs)
+        (( "__canvas", cnvs )
+            :: List.map renderTextureSource options.textures
+        )
 
 -- Types
 
