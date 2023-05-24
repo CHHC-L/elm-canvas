@@ -1,10 +1,11 @@
 module Canvas exposing
-    ( toHtml, toHtmlWith, toHtmlWithViewporter
+    ( toHtml, toHtmlWith
     , Renderable, Point
     , clear, shapes, text, texture, group, empty
     , Shape
     , rect, roundRect, circle, arc, path
     , PathSegment, arcTo, bezierCurveTo, lineTo, moveTo, quadraticCurveTo
+    , toHtmlWithViewporter
     )
 
 {-| This module exposes a nice drawing API that works on top of the the DOM
@@ -51,12 +52,13 @@ import Canvas.Internal.Canvas as C exposing (..)
 import Canvas.Internal.CustomElementJsonApi as CE exposing (Commands, commands)
 import Canvas.Internal.Texture as T
 import Canvas.Texture as Texture exposing (Texture)
+import CanvasViewporter exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (on)
 import Html.Keyed as Keyed
 import Json.Decode as D
-import CanvasViewporter exposing (..)
+
 
 
 -- HTML
@@ -145,6 +147,7 @@ cnvs : Html msg
 cnvs =
     canvas [] []
 
+
 toHtmlWithViewporter :
     { width : Int
     , height : Int
@@ -160,6 +163,8 @@ toHtmlWithViewporter options attrs entities =
         (( "__canvas", cnvs )
             :: List.map renderTextureSource options.textures
         )
+
+
 
 -- Types
 

@@ -1,4 +1,4 @@
-module CanvasViewporter exposing (canvasViewporter,CanvasViewport)
+module CanvasViewporter exposing (CanvasViewport, canvasViewporter)
 
 import Array exposing (Array, get)
 import Canvas.Internal.Canvas as C exposing (..)
@@ -10,6 +10,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (on)
 import Html.Keyed as Keyed
 import Json.Decode as D
+
 
 type alias CanvasViewport =
     { width : Float
@@ -28,6 +29,7 @@ type alias Point =
 
 type alias Shape =
     C.Shape
+
 
 canvasViewporter : CanvasViewport -> List Renderable -> List Renderable
 canvasViewporter vp entities =
